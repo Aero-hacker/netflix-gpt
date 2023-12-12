@@ -8,6 +8,8 @@ import { checkValidData } from '../utils/validate';
 const Login = () => {
     const [issigninform, setisigninform] = useState(true);
     const [errorMessage,seterrorMessage] = useState(null);
+    
+    const name = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
 
@@ -17,7 +19,7 @@ const Login = () => {
       console.log(email.current.value);
       console.log(password.current.value);
 
-      const message = checkValidData(email.current.value , password.current.value);
+      const message = checkValidData(email.current.value , password.current.value,name.current.value);
       seterrorMessage(message);
     }
     const togglesigninform = () => {
@@ -37,7 +39,10 @@ const Login = () => {
           className='w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80'>
           <h1 className='font-bold text-3xl py-4'>
           {issigninform? "Sign In":"Sign Up"}</h1>
-          {!issigninform && (<input 
+         
+          {!issigninform && (
+          <input 
+          ref={name}
           type='text' 
           placeholder='Full Name' 
           className='p-2 my-2 w-full bg-gray-700'
