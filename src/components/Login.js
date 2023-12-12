@@ -1,12 +1,19 @@
-import { useState } from 'react'
+import { useState,useRef } from 'react'
 import Header from './Header'
+import { checkValidData } from '../utils/validate';
 
 
 
 
 const Login = () => {
     const [issigninform, setisigninform] = useState(true);
+    
+    const email = useRef(null);
+    const password = useRef(null);
 
+    const handleButtonClick = () => {
+      //validate the form data
+    }
     const togglesigninform = () => {
         setisigninform(!issigninform);
     };
@@ -30,6 +37,7 @@ const Login = () => {
         />)}
         
         <input 
+        ref={email}
         type='text' 
         placeholder='Email Address' 
         className='p-2 my-2 w-full bg-gray-700'/>
@@ -38,11 +46,14 @@ const Login = () => {
         type='text' 
         placeholder='Password' 
         className='p-2 my-2 w-full bg-gray-700'/>
-        <button className='p-4 my-4 bg-red-700 w-full rounded-lg'> 
+        <button className='p-4 my-4 bg-red-700 w-full rounded-lg'
+         onClick={handleButtonClick}> 
         {issigninform? "Sign In":"Sign Up"}
          </button>
          <p className='py-4 cursor-pointer' onClick={togglesigninform}>
-           {issigninform? "New to Netflix? Sign Up Now":"Already registered? sign in now"} 
+           {issigninform
+           ? "New to Netflix? Sign Up Now"
+           :"Already registered? sign in now"} 
          </p>
      </form>
       
