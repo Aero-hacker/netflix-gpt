@@ -1,8 +1,7 @@
 import { useState,useRef } from 'react'
 import Header from './Header'
 import { checkValidData } from '../utils/validate';
-import {  createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../utils/firebase'; 
+ 
 
 
 
@@ -24,30 +23,6 @@ const Login = () => {
       const message = checkValidData(email.current.value , password.current.value,myname.current.value);
       seterrorMessage(message);
       if(message) return;
-
-      if(!issigninform){
-        // sign up logic
-        createUserWithEmailAndPassword(
-          auth,
-          email.current.value, 
-          password.current.value)
-        .then((userCredential) => {
-          // Signed up 
-          const user = userCredential.user;
-          console.log(user);
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          seterrorMessage(errorCode+"-"+errorMessage)
-          // ..
-        });
-      } else {
-        //sign in logic
-
-      }
-
 
 
     }
@@ -95,7 +70,7 @@ const Login = () => {
          <button 
            className='p-4 my-4 bg-red-700 w-full rounded-lg'
            onClick={handleButtonClick}> 
-           {issigninform? "Sign In":"Sign Up"}
+           {issigninform ? "Sign In":"Sign Up"}
          </button>
           <p className='py-4 cursor-pointer' onClick={togglesigninform}>
             {issigninform
