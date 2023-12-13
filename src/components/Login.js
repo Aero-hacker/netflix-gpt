@@ -1,7 +1,8 @@
 import { useState,useRef } from 'react'
 import Header from './Header'
 import { checkValidData } from '../utils/validate';
-
+import {  createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/firebase'; 
 
 
 
@@ -9,18 +10,46 @@ const Login = () => {
     const [issigninform, setisigninform] = useState(true);
     const [errorMessage,seterrorMessage] = useState(null);
     
-    const name = useRef(null);
+    const myname = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
 
     const handleButtonClick = () => {
       //validate the form data
       //check valid data (email,password)
+      console.log(myname.current.value);
       console.log(email.current.value);
       console.log(password.current.value);
 
-      const message = checkValidData(email.current.value , password.current.value,name.current.value);
+      const message = checkValidData(email.current.value , password.current.value,myname.current.value);
       seterrorMessage(message);
+      if(message) return;
+
+      if(!issigninform){
+        // sign up logic
+        createUserWithEmailAndPassword(
+          auth,
+          email.current.value, 
+          password.current.value)
+        .then((userCredential) => {
+          // Signed up 
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          seterrorMessage(errorCode+"-"+errorMessage)
+          // ..
+        });
+      } else {
+        //sign in logic
+
+      }
+
+
+
     }
     const togglesigninform = () => {
         setisigninform(!issigninform);
@@ -42,7 +71,7 @@ const Login = () => {
          
           {!issigninform && (
           <input 
-          ref={name}
+          ref={myname}
           type='text' 
           placeholder='Full Name' 
           className='p-2 my-2 w-full bg-gray-700'
