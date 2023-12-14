@@ -7,7 +7,7 @@ import { checkValidData } from '../utils/validate';
 
 const Login = () => {
     const [issigninform, setisigninform] = useState(true);
-    const [errorMessage,seterrorMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     
     const myname = useRef(null);
     const email = useRef(null);
@@ -20,14 +20,12 @@ const Login = () => {
       console.log(email.current.value);
       console.log(password.current.value);
 
-      const message = checkValidData(email.current.value , password.current.value,myname.current.value);
-      seterrorMessage(message);
-      if(message) return;
-
-
-    }
+      const message = checkValidData( email.current.value ,password.current.value,myname.current.value);
+      setErrorMessage(message);
+     
+     }
     const togglesigninform = () => {
-        setisigninform(!issigninform);
+        setisigninform(!issigninform)
     };
 
   return (
@@ -69,10 +67,12 @@ const Login = () => {
 
          <button 
            className='p-4 my-4 bg-red-700 w-full rounded-lg'
-           onClick={handleButtonClick}> 
+           onClick={handleButtonClick}
+          > 
            {issigninform ? "Sign In":"Sign Up"}
          </button>
-          <p className='py-4 cursor-pointer' onClick={togglesigninform}>
+          <p className='py-4 cursor-pointer'
+           onClick={togglesigninform}>
             {issigninform
             ? "New to Netflix? Sign Up Now"
             :"Already registered? sign in now"} 
