@@ -1,7 +1,7 @@
 import { useState,useRef } from 'react'
 import Header from './Header'
 import { checkValidData } from '../utils/validate';
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword  } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile  } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,6 +38,14 @@ const Login = () => {
         .then((userCredential) => {
         // Signed up 
          const user = userCredential.user;
+         updateProfile(user, {
+          displayName: myname.current.value, 
+          photoURL: "https://media.licdn.com/dms/image/D5635AQEx_b79m1KDHw/profile-framedphoto-shrink_400_400/0/1695033930700?e=1703246400&v=beta&t=L3JcizqYbj7E525xo0d84d4uZdqJvVuAgKZfKjwnWXA"
+        }).then(() => {
+          navigate("/browse");
+        }).catch((error) => {
+          setErrorMessage(error.message);
+        });
            console.log(user);
            navigate("/browse")
            })
